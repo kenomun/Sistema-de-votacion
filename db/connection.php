@@ -2,7 +2,7 @@
 function conectar()
 {
     $host = "localhost";
-    $dbname = "db_votacion";
+    $dbname = "desis_prueba";
     $user = "root";
     $password = "";
 

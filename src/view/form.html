@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Votación</title>
+</head>
+<body>
+    <h1>FORMULARIO DE VOTACIÓN:</h1>
+    <form id="votacionForm">
+        <label for="nombre_apellido">Nombre y Apellido:</label><br>
+        <input type="text" id="nombre_apellido" name="nombre_apellido"><br>
+
+        <label for="alias">Alias:</label><br>
+        <input type="text" id="alias" name="alias"><br>
+
+        <label for="rut">RUT:</label><br>
+        <input type="text" id="rut" name="rut"><br>
+
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email"><br>
+
+        <label for="region">Región:</label><br>
+        <select id="region" name="region"></select><br>
+
+        <label for="comuna">Comuna:</label><br>
+        <select id="comuna" name="comuna"></select><br>
+
+        <label for="candidato">Candidato:</label><br>
+        <select id="candidato" name="candidato"></select><br>
+
+        <label>¿Cómo se enteró de nosotros?:</label><br>
+        <div id="encuestaOptions"></div>
+
+        <button type="submit">Votar</button>
+    </form>
+
+</body>
+</html>
