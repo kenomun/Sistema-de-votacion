@@ -16,16 +16,48 @@ function enviarDatos() {
                 }
                 $('#votacionForm')[0].reset();
                 window.location.href = '../view/result.html';
+            } else if (response.votoExistente) {
+                alert(response.message);
+                mostrarVotoExistente(response.votoExistente);
             } else {
                 alert(response.message);
             }
         },
-        error: function() {
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error en la solicitud AJAX:', textStatus, errorThrown);
             alert('Error al enviar el formulario.');
         }
     });
 }
 
-// Esto se asegura de que enviarDatos esté disponible globalmente
+function mostrarVotoExistente(votoExistente) {
+    let mensaje = `
+    Nombre y Apellido: ${votoExistente.nombre_apellido}<br>
+    Alias: ${votoExistente.alias}<br>
+    Email: ${votoExistente.email}<br>
+    Región: ${votoExistente.region}<br>
+    Comuna: ${votoExistente.comuna}<br>
+    Candidato: ${votoExistente.candidato}`;
+
+    $('#votoExistenteInfo').html(mensaje);
+    $('#votoExistenteModal').show();
+    console.log('Mostrando modal de voto existente');
+}
+
+// Asegúrate de que enviarDatos esté disponible globalmente
 window.enviarDatos = enviarDatos;
+
+// Agregar un manejador de eventos para el envío del formulario
+
+$(document).ready(function() {
+    $('.close').on('click', function() {
+        $('#votoExistenteModal').hide();
+    });
+
+    $(window).on('click', function(event) {
+        if (event.target == document.getElementById('votoExistenteModal')) {
+            $('#votoExistenteModal').hide();
+        }
+    });
+});
 

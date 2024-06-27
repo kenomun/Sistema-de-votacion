@@ -22,15 +22,42 @@ try {
     // Conexión a la base de datos
     $conn = conectar();
 
+
+
     // Validar que el RUT no exista
-    $stmt = $conn->prepare("SELECT id FROM votante WHERE rut = ?");
+    $stmt = $conn->prepare("SELECT v.id, v.nombre_apellido, v.alias, v.email, c.nombre AS comuna, r.nombre AS region, ca.nombre AS candidato 
+                            FROM votante v 
+                            JOIN comuna c ON v.comuna_id = c.id 
+                            JOIN region r ON c.region_id = r.id 
+                            JOIN candidato ca ON v.candidato_id = ca.id 
+                            WHERE v.rut = ?");
     $stmt->bind_param("s", $rut);
     $stmt->execute();
-    $stmt->store_result();
-    if ($stmt->num_rows > 0) {
-        throw new Exception('El RUT ya está registrado con un voto.');
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $votoExistente = $result->fetch_assoc();
+        
+        // Obtener las encuestas seleccionadas
+        $stmt = $conn->prepare("SELECT e.descripcion FROM votante_encuesta ve JOIN encuesta e ON ve.encuesta_id = e.id WHERE ve.votante_id = ?");
+        $stmt->bind_param("i", $votoExistente['id']);
+        $stmt->execute();
+        $encuestasResult = $stmt->get_result();
+        $encuestas = [];
+        while ($row = $encuestasResult->fetch_assoc()) {
+            $encuestas[] = $row['descripcion'];
+        }
+        $votoExistente['encuestas'] = $encuestas;
+
+        $response['success'] = false;
+        $response['message'] = 'El RUT ya está registrado con un voto.';
+        $response['votoExistente'] = $votoExistente;
+        echo json_encode($response);
+        exit;
     }
     $stmt->close();
+
+
 
     // Insertar datos del votante
     $stmt = $conn->prepare("INSERT INTO votante (nombre_apellido, alias, rut, email, comuna_id, candidato_id) VALUES (?, ?, ?, ?, ?, ?)");
