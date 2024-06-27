@@ -64,29 +64,55 @@ $(document).ready(function() {
         return alias.length > 5 && /^[a-zA-Z0-9]+$/.test(alias);
     }
 
+
     function validarRut(rut) {
-        rut = rut.trim(); // Eliminar espacios 
-      
-        // Verificar si el RUT tiene el formato correcto
-        if (!/^\d{1,8}-\d$|^\d{1,2}\.\d{3}\.\d{3}-\d$/.test(rut)) {
-          alert("rut no cumple con el formato.");
-          return false;
+        rut = rut.replace(/\./g, '').replace(/\-/g, '').toUpperCase();
+
+        if (rut.length < 8) {
+            alert('El rut no cumple con el mínimo de números (min: 8)');
+            return false;
         }
-      
-        // Dividir el RUT en su parte numérica y el dígito verificador
-        const parts = rut.split("-");
-        let num = parts[0].replace(/\./g, ''); // Eliminar puntos de separación de miles
-        const dv = parts[1].toUpperCase();
-      
-        let sum = 0;
-        let mul = 2;
-        for (let i = num.length - 1; i >= 0; i--) {
-          sum += parseInt(num[i]) * mul;
-          mul = (mul % 7) + 1;
+
+        if (rut.length > 9) {
+            alert('El rut ingresado supera la cantidad máxima de números (max: 9)');
+            return false;
         }
-      
+        
+        var rutCompleto = rut.slice(0, -1);
+        var digitoVerificador = rut.slice(-1);
+
+        if (!/^[0-9]+$/g.test(rutCompleto)) {
+            alert("El RUT ingresado contiene caracteres no válidos.");
+            return false;
+        }
+
+        var suma = 0;
+        var multiplicador = 2;
+
+        for (var i = rutCompleto.length - 1; i >= 0; i--) {
+            suma += parseInt(rutCompleto[i]) * multiplicador;
+            multiplicador = multiplicador === 7 ? 2 : multiplicador + 1;
+        }
+        
+        var resto = suma % 11;
+        var dvEsperado = 11 - resto;
+
+        if (dvEsperado === 11) {
+            dvEsperado = '0';
+        } else if (dvEsperado === 10) {
+            dvEsperado = 'K';
+        } else {
+            dvEsperado = dvEsperado.toString();
+        }
+        
+        if (dvEsperado !== digitoVerificador) {
+            alert('Dígito verificador mal ingresado');
+            return false;
+        }
+
         return true;
-      }
+    }
+
 
     function validarEmail(email) {
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
