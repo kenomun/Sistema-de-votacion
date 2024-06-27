@@ -26,7 +26,7 @@ $(document).ready(function() {
             });
 
             $.each(encuestas, function(key, val) {
-                $('#encuestaOptions').append('<input type="checkbox" name="encuesta[]" value="' + val.id + '"> ' + val.descripcion + '<br>');
+                $('#encuestaOptions').append('<input type="checkbox" name="encuesta[]" value="' + val.id + '"> ' + val.descripcion);
             });
         });
     }

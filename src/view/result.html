@@ -2,12 +2,37 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Resultado de Votación</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado del Voto</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <h1>Gracias por votar!</h1>
-    <p>Detalles de tu voto:</p>
-    
-    <!-- Aquí puedes añadir código para mostrar los detalles del votante y su elección -->
+    <h1>Resultado del Voto</h1>
+    <div id="votoInfo"></div>
+    <button onclick="volverAVotacion()">Volver a Votar</button>
+
+    <script>
+        $(document).ready(function() {
+            const votoData = JSON.parse(localStorage.getItem('votoData'));
+            if (votoData) {
+                let html = `
+                    <p><strong>Nombre y Apellido:</strong> ${votoData.nombre_apellido}</p>
+                    <p><strong>Alias:</strong> ${votoData.alias}</p>
+                    <p><strong>RUT:</strong> ${votoData.rut}</p>
+                    <p><strong>Email:</strong> ${votoData.email}</p>
+                    <p><strong>Región:</strong> ${votoData.region}</p>
+                    <p><strong>Comuna:</strong> ${votoData.comuna}</p>
+                    <p><strong>Candidato:</strong> ${votoData.candidato}</p>
+                `;
+                $('#votoInfo').html(html);
+            } else {
+                $('#votoInfo').html('<p>No se encontraron datos del voto.</p>');
+            }
+        });
+
+        function volverAVotacion() {
+            window.location.href = 'form.html';
+        }
+    </script>
 </body>
 </html>

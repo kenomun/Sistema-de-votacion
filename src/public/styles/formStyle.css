@@ -1,0 +1,31 @@
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.form-row label {
+    width: 200px;
+    margin-right: 30px;
+}
+
+.form-row input,
+.form-row select {
+    flex: 1;
+}
+#encuestaOptions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+#encuestaOptions label {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+}
+#encuestaOptions input[type="checkbox"] {
+    margin-right: 5px;
+}
+button[type="submit"] {
+    margin-left: 200px;
+    margin-top: 10px;
+}
