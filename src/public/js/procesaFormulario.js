@@ -30,6 +30,7 @@ function enviarDatos() {
     });
 }
 
+// mostrar el modal con los datos ya registrados en BD.
 function mostrarVotoExistente(votoExistente) {
     let mensaje = `
     Nombre y Apellido: ${votoExistente.nombre_apellido}<br>
@@ -41,14 +42,12 @@ function mostrarVotoExistente(votoExistente) {
 
     $('#votoExistenteInfo').html(mensaje);
     $('#votoExistenteModal').show();
-    console.log('Mostrando modal de voto existente');
+    
 }
 
-// Asegúrate de que enviarDatos esté disponible globalmente
 window.enviarDatos = enviarDatos;
 
-// Agregar un manejador de eventos para el envío del formulario
-
+// manejador de eventos para el envío del formulario
 $(document).ready(function() {
     $('.close').on('click', function() {
         $('#votoExistenteModal').hide();

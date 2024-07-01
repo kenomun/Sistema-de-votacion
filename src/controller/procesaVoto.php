@@ -79,7 +79,7 @@ try {
     $response['message'] = 'Voto registrado con éxito.';
 
     // agrega datos a la respuesta
-     // Obtener nombre de la comuna y región
+    // Obtener nombre de la comuna y región
      $stmt = $conn->prepare("SELECT c.nombre AS comuna, r.nombre AS region FROM comuna c JOIN region r ON c.region_id = r.id WHERE c.id = ?");
      $stmt->bind_param("i", $comuna);
      $stmt->execute();
@@ -119,7 +119,6 @@ try {
 header('Content-Type: application/json');
 echo json_encode($response);
 
-// Cerrar la conexión
 $conn->close();
 
 ?>

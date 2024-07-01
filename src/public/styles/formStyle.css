@@ -8,10 +8,10 @@
     margin-right: 30px;
 }
 
-.form-row input,
-.form-row select {
-    flex: 1;
+.entry {
+    width: 200px;
 }
+
 #encuestaOptions {
     display: flex;
     flex-wrap: wrap;
