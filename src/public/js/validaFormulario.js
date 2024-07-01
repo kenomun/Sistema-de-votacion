@@ -7,10 +7,11 @@ $(document).ready(function() {
             enviarDatos();
         }
     });
-
+    
+    let errorMessage = '';
     function validarFormulario() {
+        console.log("ValidaFormulario")
         let valid = true;
-        let errorMessage = '';
 
         // Obtener valores del formulario
         let nombre_apellido = $('#nombre_apellido').val().trim();
@@ -20,7 +21,6 @@ $(document).ready(function() {
         let region = $('#region').val().trim();
         let comuna = $('#comuna').val().trim();
         let candidato = $('#candidato').val().trim();
-        console.log(nombre_apellido, alias, rut, email)
 
         // Validar cada campo
         if (!validarNombreApellido(nombre_apellido)) {
@@ -30,8 +30,8 @@ $(document).ready(function() {
             valid = false;
             errorMessage = 'El "Alias" debe tener 6 caracteres';
         } else if (!validarRut(rut)) {
+            console.log('errrrror ' , errorMessage)
             valid = false;
-            errorMessage = 'El "RUT" no cumple con el formato.';
         } else if (!validarEmail(email)) {
             valid = false;
             errorMessage = 'El "Email" no es válido.';
@@ -46,10 +46,11 @@ $(document).ready(function() {
             errorMessage = 'Debe seleccionar un "Candidato".';
         } else if (!validarEncuestaOptions()) {
             valid = false;
-            errorMessage = 'Debe seleccionar al menos una opción en "¿Cómo se enteró de nosotros?".';
+            errorMessage = 'Debe seleccionar al menos dos opciones en "¿Cómo se enteró de nosotros?".';
         }
 
         if (!valid) {
+            console.log('error: ', errorMessage)
             alert(errorMessage);
         }
 
@@ -69,12 +70,12 @@ $(document).ready(function() {
         rut = rut.replace(/\./g, '').replace(/\-/g, '').toUpperCase();
 
         if (rut.length < 8) {
-            alert('El rut no cumple con el mínimo de números (min: 8)');
+            errorMessage = 'El rut no cumple con el mínimo de números (min: 8)';
             return false;
         }
 
         if (rut.length > 9) {
-            alert('El rut ingresado supera la cantidad máxima de números (max: 9)');
+            errorMessage = 'El rut ingresado supera la cantidad máxima de números (max: 9)';
             return false;
         }
         
@@ -82,7 +83,7 @@ $(document).ready(function() {
         var digitoVerificador = rut.slice(-1);
 
         if (!/^[0-9]+$/g.test(rutCompleto)) {
-            alert("El RUT ingresado contiene caracteres no válidos.");
+            errorMessage = "El RUT ingresado contiene caracteres no válidos.";
             return false;
         }
 
@@ -106,7 +107,8 @@ $(document).ready(function() {
         }
         
         if (dvEsperado !== digitoVerificador) {
-            alert('Dígito verificador mal ingresado');
+            errorMessage = 'Dígito verificador mal ingresado';
+            console.log(errorMessage, ' error')
             return false;
         }
 
@@ -120,7 +122,8 @@ $(document).ready(function() {
     }
 
     function validarEncuestaOptions() {
-        return $('input[name="encuesta[]"]:checked').length > 0;
+        console.log($('input[name="encuesta[]"]:checked'))
+        return $('input[name="encuesta[]"]:checked').length >= 2;
     }
 });
 
